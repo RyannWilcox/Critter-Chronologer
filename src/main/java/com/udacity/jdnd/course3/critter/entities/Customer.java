@@ -20,7 +20,8 @@ public class Customer {
   @Column(length = 500)
   private String notes;
 
-  @OneToMany(targetEntity = Pet.class)
+  @OneToMany(fetch    = FetchType.LAZY,
+             mappedBy = "customer")
   private List<Pet> pets;
 
   public Customer(){}

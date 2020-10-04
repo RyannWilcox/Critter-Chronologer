@@ -23,7 +23,8 @@ public class Pet {
   @Column(length = 500)
   private String notes;
 
-  @ManyToOne(targetEntity = Customer.class)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "customer_id")
   private Customer customer;
 
   public Pet(){}
