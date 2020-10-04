@@ -21,7 +21,8 @@ public class Customer {
   private String notes;
 
   @OneToMany(fetch    = FetchType.LAZY,
-             mappedBy = "customer")
+             mappedBy = "customer",
+             cascade = CascadeType.ALL)
   private List<Pet> pets;
 
   public Customer(){}
