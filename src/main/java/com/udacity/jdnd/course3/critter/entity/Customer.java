@@ -1,4 +1,4 @@
-package com.udacity.jdnd.course3.critter.entities;
+package com.udacity.jdnd.course3.critter.entity;
 
 import org.hibernate.annotations.Nationalized;
 
