@@ -1,10 +1,13 @@
 package com.udacity.jdnd.course3.critter.controller;
 
 import com.udacity.jdnd.course3.critter.dto.PetDTO;
+import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.service.PetService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,21 +22,59 @@ public class PetController {
 
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
-        throw new UnsupportedOperationException();
+        Pet pet = convertToEntity(petDTO);
+        Pet savedPet = petService.savePet(pet);
+        return convertToDTO(savedPet);
     }
 
     @GetMapping("/{petId}")
     public PetDTO getPet(@PathVariable long petId) {
-        throw new UnsupportedOperationException();
+        Pet pet = petService.findById(petId);
+        return convertToDTO(pet);
     }
 
     @GetMapping
     public List<PetDTO> getPets(){
-        throw new UnsupportedOperationException();
+        List<Pet> pets = petService.findAllPets();
+        List<PetDTO> petDTOs = new ArrayList<>();
+
+        // Need to populate a list of DTO objects
+        for (Pet aPet : pets){
+            petDTOs.add(convertToDTO(aPet));
+        }
+        return petDTOs;
     }
 
     @GetMapping("/owner/{ownerId}")
     public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
-        throw new UnsupportedOperationException();
+        List<Pet> pets = petService.findAllByCustomerId(ownerId);
+        List<PetDTO> petDTOs = new ArrayList<>();
+
+        // Need to populate a list of DTO objects
+        for (Pet aPet : pets){
+            petDTOs.add(convertToDTO(aPet));
+        }
+
+        return petDTOs;
+    }
+
+    /**
+     * Convert Pet to a PetDTO
+     */
+    public PetDTO convertToDTO(Pet pet){
+        PetDTO petDTO = new PetDTO();
+        BeanUtils.copyProperties(pet,petDTO);
+        petDTO.setType(pet.getPetType());
+        return petDTO;
+    }
+
+    /**
+     * Convert the PetDTO to a pet
+     */
+    public Pet convertToEntity(PetDTO petDTO){
+        Pet pet = new Pet();
+        BeanUtils.copyProperties(petDTO,pet);
+        pet.setPetType(petDTO.getType());
+        return pet;
     }
 }

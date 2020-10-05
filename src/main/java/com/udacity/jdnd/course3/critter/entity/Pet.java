@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public class Pet {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private PetType petType;
@@ -67,5 +67,13 @@ public class Pet {
 
   public void setNotes(String notes) {
     this.notes = notes;
+  }
+
+  public Customer getCustomer() {
+    return customer;
+  }
+
+  public void setCustomer(Customer customer) {
+    this.customer = customer;
   }
 }
