@@ -5,11 +5,13 @@ import com.udacity.jdnd.course3.critter.dto.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.dto.EmployeeRequestDTO;
 import com.udacity.jdnd.course3.critter.dto.PetDTO;
 import com.udacity.jdnd.course3.critter.entity.Customer;
+import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.service.CustomerService;
 import com.udacity.jdnd.course3.critter.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
@@ -56,22 +58,37 @@ public class UserController {
 
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        Employee employee = convertToEntity(employeeDTO);
+        Employee savedEmployee = employeeService.saveEmployee(employee);
+        return convertToDTO(savedEmployee);
     }
 
-    @PostMapping("/employee/{employeeId}")
+    @GetMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        Employee employee = employeeService.findById(employeeId);
+        return convertToDTO(employee);
     }
 
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        Employee employee = employeeService.findById(employeeId);
+        employee.setDaysAvailable(daysAvailable);
+        employeeService.saveEmployee(employee);
     }
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        DayOfWeek day = employeeDTO.getDate().getDayOfWeek();
+        List<Employee> employees = employeeService.findAvailableEmployees(day);
+        List<EmployeeDTO> employeeDTOs = new ArrayList<>();
+
+        // Loop through the list of employees to find if any contain the correct day
+        for(Employee anEmployee : employees){
+            if(anEmployee.getDaysAvailable().contains(day)) {
+                employeeDTOs.add(convertToDTO(anEmployee));
+            }
+        }
+        return employeeDTOs;
     }
 
     /**
@@ -92,12 +109,31 @@ public class UserController {
     }
 
     /**
+     * Convert Employee to a EmployeeDTO
+     */
+    public EmployeeDTO convertToDTO(Employee employee){
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        BeanUtils.copyProperties(employee,employeeDTO);
+        return employeeDTO;
+    }
+
+
+    /**
      * Convert the CustomerDTO to a Customer
      */
     public Customer convertToEntity(CustomerDTO customerDTO){
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDTO,customer);
         return customer;
+    }
+
+    /**
+     * Convert the EmployeeDTO to a Employee
+     */
+    public Employee convertToEntity(EmployeeDTO employeeDTO){
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO,employee);
+        return employee;
     }
 
 }
