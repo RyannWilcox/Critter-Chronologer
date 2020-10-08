@@ -36,7 +36,13 @@ public class ScheduleController {
 
   @GetMapping
   public List<ScheduleDTO> getAllSchedules() {
-    return null;
+    List<Schedule> schedules = scheduleService.findAllSchedules();
+    List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
+
+    for(Schedule aSchedule : schedules){
+      scheduleDTOs.add(convertToDTO(aSchedule));
+    }
+    return scheduleDTOs;
   }
 
   @GetMapping("/pet/{petId}")
