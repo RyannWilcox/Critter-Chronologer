@@ -16,13 +16,13 @@ public class Schedule {
 
   @ManyToMany
   @JoinTable(name               = "schedule_employee",
-             joinColumns        = @JoinColumn(name="schedule_id"),
+             joinColumns        = @JoinColumn(name = "schedule_id"),
              inverseJoinColumns = @JoinColumn(name = "employee_id"))
   private List<Employee> employees;
 
   @ManyToMany
   @JoinTable(name               = "schedule_pet",
-             joinColumns        = @JoinColumn(name="schedule_id"),
+             joinColumns        = @JoinColumn(name = "schedule_id"),
              inverseJoinColumns = @JoinColumn(name = "pet_id"))
   private List<Pet> pets;
 
@@ -31,7 +31,8 @@ public class Schedule {
   @ElementCollection
   private Set<EmployeeSkill> activities;
 
-  public Schedule(){}
+  public Schedule() {
+  }
 
   public Long getId() {
     return id;

@@ -23,7 +23,8 @@ public class Employee {
   @ElementCollection
   private Set<DayOfWeek> daysAvailable;
 
-  public Employee() {}
+  public Employee() {
+  }
 
   public Long getId() {
     return id;

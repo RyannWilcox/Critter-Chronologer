@@ -19,10 +19,10 @@ public class CustomerService {
   @Autowired
   private PetRepository petRepository;
 
-  public Customer saveCustomer(Customer customer,List<Long> ids){
+  public Customer saveCustomer(Customer customer, List<Long> ids) {
     List<Pet> pets = new ArrayList<>();
 
-    if(ids != null && !ids.isEmpty()) {
+    if (ids != null && !ids.isEmpty()) {
       for (Long anId : ids) {
         pets.add(petRepository.findById(anId).get());
       }
@@ -31,15 +31,15 @@ public class CustomerService {
     return customerRepository.save(customer);
   }
 
-  public Customer findById(long id){
+  public Customer findById(long id) {
     return customerRepository.findById(id).get();
   }
 
-  public List<Customer> findAllCustomers(){
+  public List<Customer> findAllCustomers() {
     return customerRepository.findAll();
   }
 
-  public Customer findByPetId(long id){
+  public Customer findByPetId(long id) {
     return petRepository.findById(id).get().getCustomer();
   }
 }

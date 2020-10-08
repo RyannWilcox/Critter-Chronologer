@@ -18,21 +18,21 @@ public class PetService {
   @Autowired
   private CustomerRepository customerRepository;
 
-  public Pet savePet(Pet pet, Long id){
+  public Pet savePet(Pet pet, Long id) {
     Customer customer = customerRepository.findById(id).get();
     pet.setCustomer(customer);
     return petRepository.save(pet);
   }
 
-  public Pet findById(long id){
+  public Pet findById(long id) {
     return petRepository.findById(id).get();
   }
 
-  public List<Pet> findAllPets(){
+  public List<Pet> findAllPets() {
     return petRepository.findAll();
   }
 
-  public List<Pet> findAllByCustomerId(long id){
+  public List<Pet> findAllByCustomerId(long id) {
     return petRepository.getAllByCustomerId(id);
   }
 }

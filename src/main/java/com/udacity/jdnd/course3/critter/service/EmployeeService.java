@@ -16,15 +16,15 @@ public class EmployeeService {
   @Autowired
   private EmployeeRepository employeeRepository;
 
-  public Employee saveEmployee(Employee employee){
+  public Employee saveEmployee(Employee employee) {
     return employeeRepository.save(employee);
   }
 
-  public Employee findById(long id){
+  public Employee findById(long id) {
     return employeeRepository.findById(id).get();
   }
 
-  public List<Employee> findAvailableEmployees(DayOfWeek day){
+  public List<Employee> findAvailableEmployees(DayOfWeek day) {
     return employeeRepository.getEmployeesByDaysAvailable(day);
   }
 

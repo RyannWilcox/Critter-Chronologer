@@ -22,10 +22,11 @@ public class Customer {
 
   @OneToMany(fetch    = FetchType.LAZY,
              mappedBy = "customer",
-             cascade = CascadeType.ALL)
+             cascade  = CascadeType.ALL)
   private List<Pet> pets;
 
-  public Customer(){}
+  public Customer() {
+  }
 
   public Long getId() {
     return id;
