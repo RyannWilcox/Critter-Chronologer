@@ -1,6 +1,7 @@
 package com.udacity.jdnd.course3.critter.service;
 
 import com.udacity.jdnd.course3.critter.entity.Employee;
+import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.entity.Schedule;
 import com.udacity.jdnd.course3.critter.repository.EmployeeRepository;
 import com.udacity.jdnd.course3.critter.repository.PetRepository;
@@ -30,5 +31,15 @@ public class ScheduleService {
 
   public List<Schedule> findAllSchedules() {
     return scheduleRepository.findAll();
+  }
+
+  public List<Schedule> findAllByPetId(long id){
+    Pet pet = petRepository.findById(id).get();
+    return scheduleRepository.getAllByPet(pet);
+  }
+
+  public List<Schedule> findAllByEmployeeId(long id){
+    Employee employee = employeeRepository.findById((id)).get();
+    return scheduleRepository.getAllByEmployee(employee);
   }
 }

@@ -1,7 +1,6 @@
 package com.udacity.jdnd.course3.critter.controller;
 
-import com.udacity.jdnd.course3.critter.data.EmployeeSkill;
-import com.udacity.jdnd.course3.critter.dto.PetDTO;
+
 import com.udacity.jdnd.course3.critter.dto.ScheduleDTO;
 import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.Pet;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Handles web requests related to Schedules.
@@ -47,12 +45,24 @@ public class ScheduleController {
 
   @GetMapping("/pet/{petId}")
   public List<ScheduleDTO> getScheduleForPet(@PathVariable long petId) {
-    throw new UnsupportedOperationException();
+    List<Schedule> schedules = scheduleService.findAllByPetId(petId);
+    List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
+
+    for(Schedule aSchedule : schedules){
+      scheduleDTOs.add(convertToDTO(aSchedule));
+    }
+    return scheduleDTOs;
   }
 
   @GetMapping("/employee/{employeeId}")
   public List<ScheduleDTO> getScheduleForEmployee(@PathVariable long employeeId) {
-    throw new UnsupportedOperationException();
+    List<Schedule> schedules = scheduleService.findAllByEmployeeId(employeeId);
+    List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
+
+    for(Schedule aSchedule : schedules){
+      scheduleDTOs.add(convertToDTO(aSchedule));
+    }
+    return scheduleDTOs;
   }
 
   @GetMapping("/customer/{customerId}")
