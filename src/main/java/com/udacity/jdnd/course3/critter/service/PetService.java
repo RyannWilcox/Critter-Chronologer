@@ -22,7 +22,13 @@ public class PetService {
     Customer customer = customerRepository.findById(id).orElseThrow
             (() -> new RuntimeException("customer id: " + id + " does not exist"));
     pet.setCustomer(customer);
-    return petRepository.save(pet);
+    Pet savedPet = petRepository.save(pet);
+
+    // we have to link the customer to the newly saved pet.
+    customer.addPet(savedPet);
+    customerRepository.save(customer);
+
+    return savedPet;
   }
 
   public Pet findById(long id) {

@@ -67,4 +67,8 @@ public class Customer {
   public void setPets(List<Pet> pets) {
     this.pets = pets;
   }
+
+  public void addPet(Pet pet){
+    pets.add(pet);
+  }
 }
