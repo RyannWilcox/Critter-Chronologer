@@ -15,4 +15,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
   @Query("select s from Schedule s where :employee member of s.employees")
   List<Schedule> getAllByEmployee(Employee employee);
+
+  @Query("select s from Schedule s where :pets member of s.pets")
+  List<Schedule> getAllByPets(List<Pet> pets);
+
 }

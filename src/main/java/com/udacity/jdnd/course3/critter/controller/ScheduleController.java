@@ -35,39 +35,29 @@ public class ScheduleController {
   @GetMapping
   public List<ScheduleDTO> getAllSchedules() {
     List<Schedule> schedules = scheduleService.findAllSchedules();
-    List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
-
-    for(Schedule aSchedule : schedules){
-      scheduleDTOs.add(convertToDTO(aSchedule));
-    }
+    List<ScheduleDTO> scheduleDTOs = fillList(schedules);
     return scheduleDTOs;
   }
 
   @GetMapping("/pet/{petId}")
   public List<ScheduleDTO> getScheduleForPet(@PathVariable long petId) {
     List<Schedule> schedules = scheduleService.findAllByPetId(petId);
-    List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
-
-    for(Schedule aSchedule : schedules){
-      scheduleDTOs.add(convertToDTO(aSchedule));
-    }
+    List<ScheduleDTO> scheduleDTOs = fillList(schedules);
     return scheduleDTOs;
   }
 
   @GetMapping("/employee/{employeeId}")
   public List<ScheduleDTO> getScheduleForEmployee(@PathVariable long employeeId) {
     List<Schedule> schedules = scheduleService.findAllByEmployeeId(employeeId);
-    List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
-
-    for(Schedule aSchedule : schedules){
-      scheduleDTOs.add(convertToDTO(aSchedule));
-    }
+    List<ScheduleDTO> scheduleDTOs = fillList(schedules);
     return scheduleDTOs;
   }
 
   @GetMapping("/customer/{customerId}")
   public List<ScheduleDTO> getScheduleForCustomer(@PathVariable long customerId) {
-    throw new UnsupportedOperationException();
+    List<Schedule> schedules = scheduleService.findAllByCustomerId(customerId);
+    List<ScheduleDTO> scheduleDTOs = fillList(schedules);
+    return scheduleDTOs;
   }
 
   /**
@@ -104,5 +94,20 @@ public class ScheduleController {
     Schedule schedule = new Schedule();
     BeanUtils.copyProperties(scheduleDTO, schedule);
     return schedule;
+  }
+
+
+  /**
+   * Helper method for creating a list of DTOs
+   */
+  public List<ScheduleDTO> fillList(List<Schedule> schedules){
+    List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
+
+    if(schedules != null && !schedules.isEmpty()) {
+      for (Schedule aSchedule : schedules) {
+        scheduleDTOs.add(convertToDTO(aSchedule));
+      }
+    }
+    return scheduleDTOs;
   }
 }
