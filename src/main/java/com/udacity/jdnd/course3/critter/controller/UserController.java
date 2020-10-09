@@ -83,9 +83,11 @@ public class UserController {
     List<EmployeeDTO> employeeDTOs = new ArrayList<>();
 
     // Loop through the list of employees to find if any contain the correct day
-    for (Employee anEmployee : employees) {
-      if (anEmployee.getDaysAvailable().contains(day)) {
-        employeeDTOs.add(convertToDTO(anEmployee));
+    if(employees != null && !employees.isEmpty()) {
+      for (Employee anEmployee : employees) {
+        if (anEmployee.getDaysAvailable().contains(day)) {
+          employeeDTOs.add(convertToDTO(anEmployee));
+        }
       }
     }
     return employeeDTOs;

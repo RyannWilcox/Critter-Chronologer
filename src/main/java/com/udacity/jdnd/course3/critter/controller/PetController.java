@@ -1,8 +1,10 @@
 package com.udacity.jdnd.course3.critter.controller;
 
 import com.udacity.jdnd.course3.critter.dto.PetDTO;
+import com.udacity.jdnd.course3.critter.dto.ScheduleDTO;
 import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Pet;
+import com.udacity.jdnd.course3.critter.entity.Schedule;
 import com.udacity.jdnd.course3.critter.service.CustomerService;
 import com.udacity.jdnd.course3.critter.service.PetService;
 import org.springframework.beans.BeanUtils;
@@ -42,25 +44,14 @@ public class PetController {
   @GetMapping
   public List<PetDTO> getPets() {
     List<Pet> pets = petService.findAllPets();
-    List<PetDTO> petDTOs = new ArrayList<>();
-
-    // Need to populate a list of DTO objects
-    for (Pet aPet : pets) {
-      petDTOs.add(convertToDTO(aPet));
-    }
+    List<PetDTO> petDTOs = fillList(pets);
     return petDTOs;
   }
 
   @GetMapping("/owner/{ownerId}")
   public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
     List<Pet> pets = petService.findAllByCustomerId(ownerId);
-    List<PetDTO> petDTOs = new ArrayList<>();
-
-    // Need to populate a list of DTO objects
-    for (Pet aPet : pets) {
-      petDTOs.add(convertToDTO(aPet));
-    }
-
+    List<PetDTO> petDTOs = fillList(pets);
     return petDTOs;
   }
 
@@ -83,5 +74,19 @@ public class PetController {
     BeanUtils.copyProperties(petDTO, pet);
     pet.setPetType(petDTO.getType());
     return pet;
+  }
+
+  /**
+   * Helper method for creating a list of DTOs
+   */
+  public List<PetDTO> fillList(List<Pet> pets){
+    List<PetDTO> petDTOs = new ArrayList<>();
+
+    if(pets != null && !pets.isEmpty()) {
+      for (Pet aPet : pets) {
+        petDTOs.add(convertToDTO(aPet));
+      }
+    }
+    return petDTOs;
   }
 }
