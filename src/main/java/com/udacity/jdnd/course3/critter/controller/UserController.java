@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.controller;
 
+import com.udacity.jdnd.course3.critter.data.EmployeeSkill;
 import com.udacity.jdnd.course3.critter.dto.CustomerDTO;
 import com.udacity.jdnd.course3.critter.dto.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.dto.EmployeeRequestDTO;
@@ -77,13 +78,14 @@ public class UserController {
   @GetMapping("/employee/availability")
   public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
     DayOfWeek day = employeeDTO.getDate().getDayOfWeek();
+    Set<EmployeeSkill> skills = employeeDTO.getSkills();
     List<Employee> employees = employeeService.findAvailableEmployees(day);
     List<EmployeeDTO> employeeDTOs = new ArrayList<>();
 
-    // Loop through the list of employees to find if any contain the correct day
+    // Loop through the list of employees to find if any contain the correct skills
     if(employees != null && !employees.isEmpty()) {
       for (Employee anEmployee : employees) {
-        if (anEmployee.getDaysAvailable().contains(day)) {
+        if (anEmployee.getSkills().containsAll(skills)) {
           employeeDTOs.add(convertToDTO(anEmployee));
         }
       }
