@@ -39,17 +39,20 @@ public class ScheduleService {
   }
 
   public List<Schedule> findAllByPetId(long id){
-    Pet pet = petRepository.findById(id).get();
+    Pet pet = petRepository.findById(id).orElseThrow
+            (() -> new RuntimeException("Pet id: " + id + " does not exist"));
     return scheduleRepository.getAllByPet(pet);
   }
 
   public List<Schedule> findAllByEmployeeId(long id){
-    Employee employee = employeeRepository.findById((id)).get();
+    Employee employee = employeeRepository.findById((id)).orElseThrow
+            (() -> new RuntimeException("Employee id: " + id + " does not exist"));
     return scheduleRepository.getAllByEmployee(employee);
   }
 
   public List<Schedule> findAllByCustomerId(long id){
-    Customer customer = customerRepository.findById(id).get();
+    Customer customer = customerRepository.findById(id).orElseThrow
+            (() -> new RuntimeException("Customer id: " + id + " does not exist"));
     List<Pet> pets = customer.getPets();
     return scheduleRepository.getAllByPets(pets);
   }

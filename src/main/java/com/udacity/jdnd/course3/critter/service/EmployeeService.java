@@ -21,7 +21,8 @@ public class EmployeeService {
   }
 
   public Employee findById(long id) {
-    return employeeRepository.findById(id).get();
+    return employeeRepository.findById(id).orElseThrow
+            (() -> new RuntimeException("Employee id: " + id + " doest not exist"));
   }
 
   public List<Employee> findAvailableEmployees(DayOfWeek day) {

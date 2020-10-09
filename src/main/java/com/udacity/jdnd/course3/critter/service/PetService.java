@@ -19,13 +19,15 @@ public class PetService {
   private CustomerRepository customerRepository;
 
   public Pet savePet(Pet pet, Long id) {
-    Customer customer = customerRepository.findById(id).get();
+    Customer customer = customerRepository.findById(id).orElseThrow
+            (() -> new RuntimeException("customer id: " + id + " does not exist"));
     pet.setCustomer(customer);
     return petRepository.save(pet);
   }
 
   public Pet findById(long id) {
-    return petRepository.findById(id).get();
+    return petRepository.findById(id).orElseThrow
+            (() -> new RuntimeException("Pet id: " + id + " does not exist"));
   }
 
   public List<Pet> findAllPets() {

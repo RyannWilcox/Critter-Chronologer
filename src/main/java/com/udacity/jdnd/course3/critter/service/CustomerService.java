@@ -24,7 +24,8 @@ public class CustomerService {
 
     if (ids != null && !ids.isEmpty()) {
       for (Long anId : ids) {
-        pets.add(petRepository.findById(anId).get());
+        pets.add(petRepository.findById(anId).orElseThrow
+                (() -> new RuntimeException("Customer could not be saved")));
       }
     }
     customer.setPets(pets);
@@ -32,7 +33,8 @@ public class CustomerService {
   }
 
   public Customer findById(long id) {
-    return customerRepository.findById(id).get();
+    return customerRepository.findById(id).orElseThrow
+            (() -> new RuntimeException("Customer id: " + id + " does not exist"));
   }
 
   public List<Customer> findAllCustomers() {
@@ -40,6 +42,8 @@ public class CustomerService {
   }
 
   public Customer findByPetId(long id) {
-    return petRepository.findById(id).get().getCustomer();
+    Pet pet = petRepository.findById(id).orElseThrow
+            (() -> new RuntimeException("Pet id: " + id + " does not exist"));
+    return pet.getCustomer();
   }
 }
