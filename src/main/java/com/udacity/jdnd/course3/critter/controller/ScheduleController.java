@@ -80,7 +80,7 @@ public class ScheduleController {
       empIds.add(anEmp.getId());
     }
 
-    // Add the Id lists the DTO
+    // Add the Id lists to the DTO
     scheduleDTO.setPetIds(petIds);
     scheduleDTO.setEmployeeIds(empIds);
 
